@@ -22,7 +22,11 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="com.senspond.myapp" />
-	
+	<interceptors> 
+		<beans:bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"> 
+			<beans:property name="paramName" value="lang" /> 
+		</beans:bean> 
+	</interceptors>
 	
 	
 </beans:beans>

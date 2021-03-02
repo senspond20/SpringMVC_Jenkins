@@ -1,15 +1,63 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<title>Home</title>
+    <meta charset="UTF-8">
+    <title>Document</title>
 </head>
-<body>
-<h1>
-	Hello world!  
-</h1>
 
-<P>  The time on the server is ${serverTime}. </P>
-</body>
-</html>
+<body>
+    <h1 id="title" data-lang="title">[title]</h1>
+    <p id="content" data-lang="content">[content]</p>
+    <p id="language"><span data-lang="now_sys_lang">[now-sys-lang]</span> : <span id="locale"></span></p>
+    <button id="btn-en">English</button> <button id="btn-ko">한국어</button>
+    <script>
+        // 언어별 JSON 파일 (간략화)
+        const lang = {
+            en: {
+                title: "Hello.",
+                content: "This is a content area",
+                now_sys_lang: "System locale"
+            },
+            ko: {
+                title: "안녕하세요.",
+                content: "여기는 컨텐츠 구역입니다.",
+                now_sys_lang: "시스템 로캘"
+            }
+        }
+
+        // ** 현재 브라우저의 언어 가져오기 **
+        function getLanguage() {
+            return navigator.language || navigator.userLanguage;
+        }
+
+        // 언어별 적용
+        function init(localeStr) {
+            document.getElementById("locale").textContent = localeStr
+        }
+
+        // 초기 작업
+        const currentLang = getLanguage()
+        init(currentLang)
+        render(currentLang.substr(0, 2))
+
+        // 언어별 렌더링
+        function render(locale) {
+            const $lang = document.querySelectorAll("[data-lang]")
+            $lang.forEach(el => {
+                const code = el.dataset.lang
+                el.textContent = lang[locale][code]
+            })
+        }
+
+        // 버튼 이벤트
+        document.getElementById("btn-en").addEventListener("click", e => {
+            render("en")
+        })
+        document.getElementById("btn-ko").addEventListener("click", e => {
+            render("ko")
+        })
+    </script>
+</body></html>
